@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Проверенные программы и понятные инструкции для учеников ion·inf." />
+    <meta name="theme-color" content="#101312" />
+    <title>ion·inf — программы для занятий</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Перейти к содержанию</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="ion inf — на главную">
+        <span class="brand-mark" aria-hidden="true">i</span>
+        <span>ion<span class="brand-dot">·</span>inf</span>
+      </a>
+      <a class="header-help" href="#help">Нужна помощь?</a>
+    </header>
+
+    <main id="content">
+      <section class="catalog" id="top" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <h1 id="catalog-title">Программы для занятий</h1>
+          <p>1 доступна сейчас</p>
+        </div>
+
+        <article class="app-card app-card--active">
+          <div class="app-summary">
+            <div class="app-icon libreoffice-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" role="img">
+                <path d="M12 5.5h16.5L37 14v28.5H12z" />
+                <path d="M28.5 5.5V14H37M17.5 22h14M17.5 28h14M17.5 34h9" />
+              </svg>
+            </div>
+            <div class="app-title">
+              <div class="title-row">
+                <h3>LibreOffice</h3>
+                <span class="status status--ready">Доступно</span>
+              </div>
+              <p>Бесплатный офисный пакет для документов, таблиц и презентаций.</p>
+            </div>
+          </div>
+
+          <div class="download-panel">
+            <div class="os-picker" role="group" aria-label="Выберите операционную систему">
+              <button class="os-option is-selected" type="button" data-os="windows" aria-pressed="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.2 10.5 4v7.2H3V5.2Zm8.5-1.4L21 2.4v8.8h-9.5V3.8ZM3 12.2h7.5v7.2L3 18.3v-6.1Zm8.5 0H21V21l-9.5-1.4v-7.4Z" /></svg>
+                <span><strong>Windows</strong><small>10 или новее</small></span>
+                <span class="radio-dot" aria-hidden="true"></span>
+              </button>
+              <button class="os-option" type="button" data-os="macos" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.7 12.8c0-2.6 2.1-3.9 2.2-4-1.2-1.8-3.1-2-3.8-2-1.6-.2-3.2 1-4 .9-.9 0-2.1-.9-3.5-.9-1.8 0-3.5 1.1-4.5 2.7-1.9 3.3-.5 8.2 1.4 10.9.9 1.3 2 2.8 3.5 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.2.9 3.7.9 1.5 0 2.5-1.4 3.4-2.7 1.1-1.5 1.5-3 1.5-3.1-.1 0-3.5-1.4-3.5-4.5ZM14 5.1c.8-1 1.4-2.4 1.2-3.8-1.2.1-2.7.8-3.6 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.7-1.7Z" /></svg>
+                <span><strong>macOS</strong><small>Intel / Apple Silicon</small></span>
+                <span class="radio-dot" aria-hidden="true"></span>
+              </button>
+            </div>
+
+            <div class="architecture-picker" id="architecture-picker" role="group" aria-label="Выберите процессор Mac" hidden>
+              <button class="architecture-option is-selected" type="button" data-architecture="apple" aria-pressed="true">Apple Silicon <small>M1–M4</small></button>
+              <button class="architecture-option" type="button" data-architecture="intel" aria-pressed="false">Intel <small>Старые Mac</small></button>
+            </div>
+
+            <a class="download-button" id="download-link" href="https://download.documentfoundation.org/libreoffice/stable/26.8.0/win/x86_64/LibreOffice_26.8.0_Win_x86-64.msi" download>
+              <span>Скачать для Windows</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 20h14" /></svg>
+            </a>
+            <button class="instruction-button" id="instruction-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v.01M9.1 9a3 3 0 1 1 4.3 2.7c-.9.5-1.4 1.1-1.4 2.3M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+              Как установить
+            </button>
+            <p class="official-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 12 2 2 4-5m5 3a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" /></svg>
+              LibreOffice 26.8.0 · официальный файл
+            </p>
+          </div>
+        </article>
+
+        <div class="coming-list" aria-label="Скоро появятся">
+          <article class="app-card app-card--coming">
+            <div class="app-icon python-icon" aria-hidden="true">Py</div>
+            <div class="app-title">
+              <div class="title-row"><h3>Python</h3><span class="status">Скоро будет</span></div>
+              <p>Язык программирования для наших следующих занятий.</p>
+            </div>
+          </article>
+          <article class="app-card app-card--coming">
+            <div class="app-icon pycharm-icon" aria-hidden="true">PC</div>
+            <div class="app-title">
+              <div class="title-row"><h3>PyCharm</h3><span class="status">Скоро будет</span></div>
+              <p>Удобная среда для написания программ на Python.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="help" id="help" aria-labelledby="help-title">
+        <div>
+          <p class="eyebrow"><span></span> Я рядом</p>
+          <h2 id="help-title">Что-то не получается?</h2>
+          <p>Пришлите скриншот ошибки в Telegram — разберёмся вместе.</p>
+        </div>
+        <a class="telegram-button" id="telegram-link" href="https://t.me/im_ion" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.5 3.5-3.2 16c-.2 1.1-.9 1.4-1.8.9l-4.9-3.6-2.3 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L6 13.3l-4.8-1.5c-1-.3-1-1 .2-1.5L20.1 3c.9-.3 1.6.2 1.4.5Z" /></svg>
+          Написать в Telegram
+        </a>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand brand--small" href="#top"><span class="brand-mark" aria-hidden="true">i</span><span>ion<span class="brand-dot">·</span>inf</span></a>
+      <p>Только официальные и проверенные источники</p>
+      <p>© <span id="year"></span></p>
+    </footer>
+
+    <dialog class="instruction-dialog" id="instruction-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-header">
+        <div>
+          <p class="dialog-kicker" id="dialog-platform">LibreOffice · Windows</p>
+          <h2 id="dialog-title">Как установить</h2>
+        </div>
+        <button class="dialog-close" type="button" aria-label="Закрыть инструкцию">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+      </div>
+      <ol class="steps" id="steps-list">
+        <li><span>1</span><div><h3>Дождитесь загрузки</h3><p>Файл появится в папке «Загрузки».</p></div></li>
+        <li><span>2</span><div><h3>Откройте файл</h3><p>Дважды нажмите на загруженный установщик.</p></div></li>
+        <li><span>3</span><div><h3>Завершите установку</h3><p>Нажимайте «Далее», оставляя стандартные настройки.</p></div></li>
+      </ol>
+      <p class="dialog-help">Если появится ошибка, сделайте скриншот и <a href="https://t.me/im_ion" target="_blank" rel="noopener noreferrer">пришлите мне в Telegram</a>.</p>
+    </dialog>
+  </body>
+</html>
