@@ -80,7 +80,7 @@ Use the system San Francisco stack with Helvetica and Arial fallbacks. The page 
 
 ## Layout
 
-- Desktop: one rounded light application canvas inset 8px from the dark browser background. An 88px translucent top bar holds the text signature @im_ion and direct Telegram help. Native scroll remains available, but browser scrollbar chrome is visually hidden.
+- Desktop: one rounded light application canvas inset 8px from the dark browser background. An 88px translucent top bar holds the text signature @ion_inf and direct Telegram help. Native scroll remains available, but browser scrollbar chrome is visually hidden.
 - The introduction is a restrained two-column composition: task copy and the handwritten line “Собрано Ионом ♥” on the left, a supplied cutout portrait over a layered orange backdrop on the right. There is no biography card, facts, metrics, or secondary CTA.
 - Content expands up to 1640px with 40px outer padding.
 - Default screen: title, one-line description, personal signature, portrait, and a flat software list separated by hairline rules.
@@ -103,7 +103,7 @@ Use 10–13px radii for controls, 18px for the two primary surfaces, and 22px on
 - Software row: flat row with a bottom divider. Python and PyCharm are inert and say “Скоро”.
 - OS option: full-width semantic button with a single 1px contour. Selection uses a graphite contour; keyboard focus replaces it with one blue contour. Never combine border and outline into a double frame.
 - Instruction area: direct official download link followed by four real screenshots for Windows. The first screenshot points to the browser downloads button; macOS uses architecture selection and a compact text-first installation sequence.
-- Top bar: text-only @im_ion signature and one black help button that opens Telegram directly. The @ character is visually muted; the portrait belongs to the page introduction rather than navigation.
+- Top bar: text-only @ion_inf signature and one black help button that opens Telegram directly. The @ character is visually muted; the portrait belongs to the page introduction rather than navigation.
 - Portrait stage: the supplied transparent portrait sits over one perfectly round pale-orange disc. Behind it, two low-contrast interrupted arcs are drawn from true circles at different radii. The round disc covers the visible silhouette, and the LibreOffice row overlaps the lower edge. It has no card, ellipse, glow, gradient, caption, biography, facts, or statistics.
 - Personal signature: the handwritten text uses the locally bundled `Bad Script` Cyrillic font in the brighter `brandAccent` color and ends with one small vector heart. The heart is part of the signature, not an emoji decoration or separate icon badge.
 

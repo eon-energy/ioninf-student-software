@@ -55,4 +55,4 @@ Telegram для помощи настроен на `https://t.me/im_ion`.
 - `assets/fonts/bad-script-v18.ttf` — локальный шрифт личной подписи;
 - `assets/installation-reference.png` — исходник изображений инструкции;
 - `assets/browser-downloads.png` — подсказка, где найти загруженный файл в браузере;
-- `assets/favicon.svg` — прежняя SVG-иконка проекта.
+- `assets/favicon.svg` — оранжевая иконка вкладки с буквой i.
