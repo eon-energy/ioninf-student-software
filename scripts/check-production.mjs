@@ -24,8 +24,8 @@ for(const file of local.files){
   assert.deepEqual(data,await readFile(new URL('../dist/'+file,import.meta.url)),file+' differs from release');
 }
 report.checks.push('All '+local.files.length+' deployed files match release; hashed assets immutable');
-for(const file of ['missing.jpg','missing.js','missing.css','unknown-route','.git/config','README.md','catalog.json','assets/installation-reference.png','assets/im-ion-cutout-final.png']){
-  const r=await fetch(new URL(file,origin));assert.equal(r.status,404,file);report.checks.push(file+': 404');
+for(const file of ['missing.jpg','missing.js','missing.css','missing.123456abcdef.css','unknown-route','.git/config','README.md','catalog.json','assets/installation-reference.png','assets/im-ion-cutout-final.png']){
+  const r=await fetch(new URL(file,origin));assert.equal(r.status,404,file);assert.ok(!(r.headers.get('cache-control')||'').includes('immutable'),'404 must not be immutable');report.checks.push(file+': 404');
 }
 const redirect=await fetch('https://soft.ioninf.ru/test/path?source=check',{redirect:'manual'});
 assert.equal(redirect.status,308);assert.equal(redirect.headers.get('location'),'https://soft.infa-ion.ru/test/path?source=check');

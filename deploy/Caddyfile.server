@@ -4,7 +4,10 @@ soft.infa-ion.ru {
     encode zstd gzip
     root * /srv/ioninf-soft
     file_server
-    @versioned path_regexp versioned \.[a-f0-9]{12}\.(css|js|json|svg|webp|jpg|woff2|txt)$
+    @versioned {
+        path_regexp versioned \.[a-f0-9]{12}\.(css|js|json|svg|webp|jpg|woff2|txt)$
+        file
+    }
     @html path / /index.html /release-manifest.json
     header @html Cache-Control "no-cache"
     header @versioned Cache-Control "public, max-age=31536000, immutable"

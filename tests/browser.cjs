@@ -118,6 +118,13 @@ async function geometry(page){
     await page.keyboard.press('Escape');assert.equal(await page.locator('[data-setup=python]').getAttribute('aria-expanded'),'false');
     record('Keyboard opening/Escape, opaque blue focus and reduced-motion scroll behavior');
     await context.close();
+    const independent=await browser.newContext({reducedMotion:'no-preference'}),independentPage=await independent.newPage();
+    await independentPage.addInitScript(()=>{window.scrollCalls=[];const original=Element.prototype.scrollIntoView;Element.prototype.scrollIntoView=function(options){window.scrollCalls.push(options?.behavior);return original.call(this,options);};document.addEventListener('DOMContentLoaded',()=>document.querySelector('#libreoffice-panel')?.remove(),{once:true});});
+    await independentPage.goto(base);await independentPage.waitForSelector('html[data-ready=true]');
+    assert.equal(await independentPage.locator('.install-toggle:visible').count(),2);assert.ok(await independentPage.locator('#libreoffice .fallback-guide').isVisible());
+    await independentPage.locator('[data-setup=python]').click();await independentPage.locator('[data-os=windows]').click();assert.ok(await independentPage.locator('.download-link').isVisible());
+    assert.ok((await independentPage.evaluate(()=>window.scrollCalls)).includes('smooth'),'Normal motion uses the shared smooth helper');
+    await independent.close();record('One broken program keeps its fallback without disabling the other programs; normal motion');
     // Static fallback must survive both JS-disabled mode and independent bootstrap failures.
     for(const mode of ['disabled','script','guide-data','catalog']){
       const ctx=await browser.newContext({javaScriptEnabled:mode!=='disabled'});

@@ -40,6 +40,7 @@
     },
     "libreoffice": {
       "name": "LibreOffice",
+      "mirrorCountry": "ru",
       "version": "26.8.0",
       "role": "Таблицы и документы — для отдельных занятий",
       "source": "https://www.libreoffice.org/download/",

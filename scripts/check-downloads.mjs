@@ -58,10 +58,15 @@ for (const [id,program] of Object.entries(catalog.programs)) {
       }
       item.fileSignature='passed';
       if(id==='libreoffice') {
-        const {response:metadata}=await checkedFetch(file.integritySource,{method:'GET',allowedHosts:catalog.allowedIntegrityHosts});
+        // MirrorBrain can omit country-only mirrors for a CI runner abroad.
+        // Select the mirror's documented country for metadata, not for the binary request.
+        const metadataUrl=new URL(file.integritySource);
+        if(program.mirrorCountry)metadataUrl.searchParams.set('country',program.mirrorCountry);
+        const {response:metadata}=await checkedFetch(metadataUrl.href,{method:'GET',allowedHosts:catalog.allowedIntegrityHosts});
         assert.equal(metadata.status,200);
         const html=await metadata.text();assert.ok(html.includes(file.sha256));assert.ok(html.includes(file.url),'Mirror is not listed by publisher');
         item.publisherChecksum=file.sha256;
+        item.mirrorListCountry=program.mirrorCountry||null;
         if(verifyFiles) {
           console.log(`Hashing ${id}/${platform} (${file.bytes} bytes; not executing)...`);
           const {response:binary}=await checkedFetch(file.url,{method:'GET',timeout:600000});
