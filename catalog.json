@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-16",
+  "owner": "Ион — владелец курса и релизов soft.infa-ion.ru",
+  "programs": {
+    "python": {
+      "name": "Python",
+      "version": "3.13.16",
+      "role": "1. Язык программирования — установите первым",
+      "source": "https://www.python.org/downloads/release/python-{versionCompact}/",
+      "requirementsSource": "https://docs.python.org/3.13/using/",
+      "pinnedReason": "Версия курса, явно выбранная преподавателем. Не заменять ветку автоматически.",
+      "nativeInstallVerifiedAt": null,
+      "requirements": {
+        "windows": "Windows 10 / 11, 64-разрядный процессор Intel или AMD. Обычный установщик .exe, не архив.",
+        "macos": "macOS 10.13 и новее. Универсальный установщик .pkg: подходит для Intel и Apple Silicon."
+      },
+      "downloads": {
+        "windows": { "url": "https://www.python.org/ftp/python/{version}/python-{version}-amd64.exe", "bytes": 29935584, "architecture": "Intel / AMD · x64", "type": "exe", "integritySource": "https://www.python.org/ftp/python/{version}/python-{version}-amd64.exe.sigstore" },
+        "macos": { "url": "https://www.python.org/ftp/python/{version}/python-{version}-macos11.pkg", "bytes": 70394335, "architecture": "Intel и Apple Silicon", "type": "pkg", "integritySource": "https://www.python.org/ftp/python/{version}/python-{version}-macos11.pkg.sigstore" }
+      }
+    },
+    "pycharm": {
+      "name": "PyCharm",
+      "version": "2026.2.3",
+      "role": "2. Редактор кода — после Python",
+      "source": "https://www.jetbrains.com/pycharm/download/",
+      "requirementsSource": "https://www.jetbrains.com/help/pycharm/installation-guide.html",
+      "pinnedReason": "Последний стабильный релиз на дату проверки. Обновлять только вместе с проверкой инструкции.",
+      "nativeInstallVerifiedAt": null,
+      "requirements": {
+        "windows": "Windows 10 / 11, Intel или AMD x64, 4 ядра, 8 ГБ памяти и 10 ГБ свободного места.",
+        "macos": "Поддерживаемые JetBrains версии macOS: 15 и 26. Нужно 4 ядра, 8 ГБ памяти и 10 ГБ свободного места. Проверьте процессор перед загрузкой."
+      },
+      "downloads": {
+        "windows": { "url": "https://download.jetbrains.com/python/pycharm-{version}.exe", "bytes": 962363888, "architecture": "Intel / AMD · x64", "type": "exe", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}.exe.sha256" },
+        "apple": { "url": "https://download.jetbrains.com/python/pycharm-{version}-aarch64.dmg", "bytes": 1221864868, "architecture": "Apple Silicon · M1 и новее", "type": "dmg", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}-aarch64.dmg.sha256" },
+        "intel": { "url": "https://download.jetbrains.com/python/pycharm-{version}.dmg", "bytes": 1270690329, "architecture": "Intel · x64", "type": "dmg", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}.dmg.sha256" }
+      }
+    },
+    "libreoffice": {
+      "name": "LibreOffice",
+      "version": "26.8.0",
+      "role": "Таблицы и документы — для отдельных занятий",
+      "source": "https://www.libreoffice.org/download/",
+      "requirementsSource": "https://www.libreoffice.org/system-requirements/",
+      "pinnedReason": "Сохранена установленная для курса версия. Новая 26.8.1 известна; переход после ручной проверки, не автоматически.",
+      "nativeInstallVerifiedAt": null,
+      "requirements": {
+        "windows": "Windows 10 / 11, Intel или AMD x64. До 1,5 ГБ на диске. Для установки нужны права администратора.",
+        "macos": "macOS 11 и новее. Intel или Apple Silicon, до 800 МБ на диске. Выберите свой процессор."
+      },
+      "downloads": {
+        "windows": { "url": "https://mirror.truenetwork.ru/tdf/libreoffice/stable/{version}/win/x86_64/LibreOffice_{version}_Win_x86-64.msi", "bytes": 374906880, "architecture": "Intel / AMD · x64", "type": "msi", "sha256": "4aa6c6e1895f4055104effcb556bd3362d20c6ad707c149543304f395ef9db95", "integritySource": "https://download.documentfoundation.org/libreoffice/stable/{version}/win/x86_64/LibreOffice_{version}_Win_x86-64.msi.mirrorlist" },
+        "apple": { "url": "https://mirror.truenetwork.ru/tdf/libreoffice/stable/{version}/mac/aarch64/LibreOffice_{version}_MacOS_aarch64.dmg", "bytes": 298773447, "architecture": "Apple Silicon · M1 и новее", "type": "dmg", "sha256": "8858d8058da4f862f47559486814e65efc27294da67c5e4bb56b006b1ee59f89", "integritySource": "https://download.documentfoundation.org/libreoffice/stable/{version}/mac/aarch64/LibreOffice_{version}_MacOS_aarch64.dmg.mirrorlist" },
+        "intel": { "url": "https://mirror.truenetwork.ru/tdf/libreoffice/stable/{version}/mac/x86_64/LibreOffice_{version}_MacOS_x86-64.dmg", "bytes": 309257813, "architecture": "Intel · x64", "type": "dmg", "sha256": "2dcbce4894e01bc1ecd594658e2cbda70ff7bfcd0b310f35d38887797172d09e", "integritySource": "https://download.documentfoundation.org/libreoffice/stable/{version}/mac/x86_64/LibreOffice_{version}_MacOS_x86-64.dmg.mirrorlist" }
+      }
+    }
+  },
+  "allowedDownloadHosts": ["www.python.org", "download.jetbrains.com", "download-cdn.jetbrains.com", "mirror.truenetwork.ru"],
+  "allowedIntegrityHosts": ["www.python.org", "download.jetbrains.com", "download-cdn.jetbrains.com", "download.documentfoundation.org"]
+}
