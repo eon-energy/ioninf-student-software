@@ -30,7 +30,8 @@ for(const file of ['missing.jpg','missing.js','missing.css','missing.123456abcde
 const redirect=await fetch('https://soft.ioninf.ru/test/path?source=check',{redirect:'manual'});
 assert.equal(redirect.status,308);assert.equal(redirect.headers.get('location'),'https://soft.infa-ion.ru/test/path?source=check');
 report.checks.push('Legacy hostname preserves path and query in 308 redirect');
-assert.ok(html.includes('Для программирования:'));
+assert.ok(html.includes('Что установить'));
+assert.ok(!/Официальный сайт|Системные требования|↗/.test(html));
 await mkdir(new URL('../test-results/',import.meta.url),{recursive:true});
 await writeFile(new URL('../test-results/production.json',import.meta.url),JSON.stringify(report,null,2));
 console.log(report.checks.join('\n'));

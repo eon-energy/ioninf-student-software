@@ -6,6 +6,11 @@ const widths=[320,375,390,600,601,640,680,700,768,840,841,1024,1440];
 const origin=process.env.TEST_URL||'http://127.0.0.1:4174';
 const result={checks:[],widths,errors:[],performance:null};
 const record=name=>{result.checks.push(name);console.log('PASS '+name);};
+async function assertMinimalUI(page){
+  assert.equal(await page.locator('.file-meta,.file-name,.source-links,.requirements,.small,.share-step,[data-share],figcaption,.platform-note,.tip,.step-count,.dialog-hint,.dialog-caption,footer').count(),0,'No ancillary microcopy or source links');
+  const text=await page.locator('body').innerText();
+  assert.ok(!/Официальный сайт|Официальная страница|Системные требования|Официальная инструкция|Скопировать ссылку на этот шаг|Скачайте, установите — и можно начинать\.|↗/.test(text),'No removed labels or decorative link arrows');
+}
 async function geometry(page){
   return page.evaluate(()=>{
     const errors=[],width=innerWidth;
@@ -34,6 +39,7 @@ async function geometry(page){
     page.on('console',message=>{if(message.type()==='error')result.errors.push(message.text());});
     const ready=async url=>{await page.goto(url);await page.waitForSelector('html[data-ready=true]');};
     await ready(base);
+    await assertMinimalUI(page);
     assert.equal(await page.locator('.install-toggle:visible').count(),3);
     assert.equal(await page.locator('.install-panel:visible').count(),0);
     assert.equal(await page.locator('img').count(),1,'No hidden guide images in initial DOM');
@@ -66,19 +72,20 @@ async function geometry(page){
           for(const chip of ['apple','intel']){await page.locator('[data-chip="'+chip+'"]').click();assert.equal(await page.locator('.download-link').getAttribute('href'),downloadFor(catalog.programs[app],os,chip).url);}
         }else assert.equal(await page.locator('.download-link').getAttribute('href'),downloadFor(catalog.programs[app],os,null).url);
         assert.equal(await page.locator('.download-link').getAttribute('target'),'_blank');
-        assert.ok(await page.locator('.requirements').isVisible());
+        await assertMinimalUI(page);
         for(const section of getSections(app,os,catalog.programs)){
           await page.locator('[data-chapter="'+section.id+'"]').click();
           for(const step of section.steps){
             await page.locator('[data-step="'+step.id+'"]').click();
             assert.equal(await page.locator('#step-heading').textContent(),step.title);
             assert.deepEqual(await geometry(page),[],app+'/'+os+'/'+section.id+'/'+step.id);
-            if(step.image){await page.locator('.image-zoom img').evaluate(img=>img.decode());assert.ok((await page.locator('figcaption').textContent()).includes(step.image.version));}
+            await assertMinimalUI(page);
+            if(step.image){await page.locator('.image-zoom img').evaluate(img=>img.decode());assert.ok((await page.locator('.image-zoom img').getAttribute('alt')).includes(step.image.version));}
             if(step.code){await page.locator('[data-copy-code]').click();await page.waitForFunction(()=>document.querySelector('#copy-status').textContent==='Скопировано');}
           }
         }
       }
-    }record('8 download variants, requirements, explicit chips; all 55 guide states and images');
+    }record('8 download variants, explicit chips; all 55 guide states and images; removed microcopy stays absent');
     await ready(base+'/#guide/python/macos/choose/install/verify');
     await page.locator('[data-open-app=pycharm]').click();
     assert.ok(page.url().includes('/pycharm/macos/'));
@@ -89,8 +96,7 @@ async function geometry(page){
     await page.reload();await page.waitForSelector('html[data-ready=true]');
     assert.equal(await page.locator('[data-confirm]:checked').count(),3);
     assert.equal(await page.locator('[data-chip=intel]').getAttribute('aria-pressed'),'true');
-    await page.locator('[data-share]').click();await page.waitForFunction(()=>document.querySelector('#copy-status').textContent==='Скопировано');assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),page.url());
-    record('Python → PyCharm retains OS; explicit completion, reload, clipboard and chip persistence');
+    record('Python → PyCharm retains OS; explicit completion, reload, command copying and chip persistence');
     await page.locator('[data-prev]').click();const prev=page.url();await page.locator('[data-prev]').click();
     await page.goBack();await page.waitForFunction(url=>location.href===url,prev);assert.equal(await page.locator('#step-heading').textContent(),'Напишите и запустите код');
     await page.goForward();await page.waitForFunction(()=>location.hash.endsWith('/name-file'));
@@ -99,6 +105,12 @@ async function geometry(page){
     await page.locator('[data-reset]').click();assert.equal(await page.locator('.download-link').count(),0);record('Back/forward, dialog Escape + focus, reset');
     await ready(base+'/#guide/not-a-program/macos/apple/run/oops');assert.equal(await page.locator('.install-panel:visible').count(),0);
     await ready(base+'/#guide/python/garbage/garbage/garbage/garbage');assert.equal(await page.locator('.download-link').count(),0);record('Malformed deep links are safe');
+    await ready(base+'/#guide/python/windows/choose/install/download');
+    for(const width of [390,1440]){
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await page.locator('#python-heading').evaluate(el=>el.scrollIntoView({behavior:'instant',block:'start'}));
+      await page.waitForTimeout(150);await page.screenshot({path:'test-results/download-'+width+'.png'});
+    }
     await ready(base+'/#guide/pycharm/windows/choose/run/new-file');
     await page.setViewportSize({width:390,height:844});await page.locator('#step-heading').evaluate(el=>el.scrollIntoView({behavior:'instant',block:'start'}));await page.waitForTimeout(150);await page.screenshot({path:'test-results/guide-390.png'});
     await page.setViewportSize({width:1440,height:1000});await page.locator('#step-heading').evaluate(el=>el.scrollIntoView({behavior:'instant',block:'start'}));await page.waitForTimeout(150);await page.screenshot({path:'test-results/guide-1440.png'});
@@ -132,7 +144,15 @@ async function geometry(page){
       await p.goto(base);await p.waitForLoadState('networkidle');
       assert.equal(await p.locator('.fallback-guide:visible').count(),3,mode);
       assert.equal(await p.locator('.install-toggle:visible').count(),0,mode);
-      for(const app of ['python','pycharm','libreoffice']){await p.locator('#'+app+' summary').click();assert.ok(await p.locator('#'+app+' .fallback-guide a').isVisible());}
+      for(const app of ['python','pycharm','libreoffice']){
+        await p.locator('#'+app+' summary').click();
+        const links=p.locator('#'+app+' .fallback-guide a');
+        assert.equal(await links.count(),app==='python'?2:3);
+        const expected=['windows','macos'].flatMap(os=>(os==='macos'&&app!=='python'?['apple','intel']:[null]).map(chip=>downloadFor(catalog.programs[app],os,chip).url));
+        assert.deepEqual(await links.evaluateAll(els=>els.map(el=>el.href)),expected);
+        for(const link of await links.all())assert.ok(await link.isVisible());
+      }
+      await assertMinimalUI(p);
       await ctx.close();
     }record('HTML fallback: JavaScript off, missing controller, guide module and catalog');
     const retryContext=await browser.newContext(),retry=await retryContext.newPage();let block=true;

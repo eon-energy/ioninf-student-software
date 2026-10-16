@@ -13,9 +13,17 @@ colors:
   brandText: "#b74500"
   portraitBackdrop: "#ffd8c2"
 typography:
-  body: "16px / 1.5 system sans-serif"
-  helper: "13–14px / 1.5"
-  title: "36px mobile, up to 56px desktop"
+  body:
+    fontFamily: "system-ui, sans-serif"
+    fontSize: 16px
+    lineHeight: 1.5
+  controls:
+    fontSize: 16px
+    lineHeight: 1.35
+  title:
+    fontSize: 56px
+    fontWeight: 650
+    lineHeight: 1.2
 spacing:
   small: 8px
   medium: 16px
@@ -41,17 +49,19 @@ All three programs use the same flat row, separating line, version, purpose and 
 
 ## Instruction pattern
 
-One shared expansion controller. Explicit OS choice, requirements before the download, explicit Mac chip for non-universal files, consistent name/version/size/type/architecture and official fallback. Download opens separately so the current step remains available.
+One shared expansion controller. Explicit OS choice (Windows x64 / macOS), explicit Mac chip for non-universal files and a download button with name/version. Download opens separately so the current step remains available. Keep requirements, file metadata and official-source provenance in the data, not as extra UI paragraphs or links.
+
+The owner's latest simplification request takes precedence over the earlier review's helper-copy requirements. No intro subtitle, microcomments, file names/sizes, source/system-requirement links, step-sharing action, decorative link arrows or informational footer. Preserve actual step instructions, commands, meaningful error feedback and screenshot annotations.
 
 One reading step at a time; PyCharm sections are installation, first project, settings and first run. Desktop uses a step list; mobile a labelled native select. Back/next work across chapter boundaries. Session storage and stable hash URLs preserve progress. Reset is explicit. Python's final step continues to PyCharm with the same OS. PyCharm readiness requires the student's three explicit confirmations; the site never claims it detected software.
 
-Screenshots are the teacher's unchanged source images with coordinate-based SVG marks. Exact OS/version is adjacent to each image, including direct-linked steps. Old Windows screenshots are labelled as references when reading Mac instructions. LibreOffice remains text-only until real screenshots are supplied. Missing image has local retry; scripts unavailable means complete generated HTML instructions and official links for all three programs.
+Screenshots are the teacher's unchanged source images with coordinate-based SVG marks. Exact OS/version remains in image alt text and source data, without visible caption commentary. LibreOffice remains text-only until real screenshots are supplied. Missing image has local retry; scripts unavailable means complete generated HTML instructions and the same direct installer links for all three programs.
 
 ## Readability and interaction
 
-Body 16px; helper 13–14px; no 10px labels. Secondary text #68686d and dark-orange handwriting meet normal-text contrast on the canvas. Graphite primary controls; opaque #0071e3 focus outline. Selected choices use graphite, not blue focus styling. Never remove native focus without a visible replacement on interactive elements.
+Body and primary controls 16px; compact navigation 14px; no tiny commentary labels. Secondary text #68686d and dark-orange handwriting meet normal-text contrast on the canvas. Graphite primary controls; opaque #0071e3 focus outline. Selected choices use graphite, not blue focus styling. Never remove native focus without a visible replacement on interactive elements.
 
-No entrance animation. All deliberate scrolling uses the same reduced-motion-aware helper. Sticky header height is observed so its variable height under text zoom is reflected in scroll offset. Image dialog supports Escape, focus return, original-size scrolling and a caption. Keyboard and image/error actions must not lose the current step.
+No entrance animation. All deliberate scrolling uses the same reduced-motion-aware helper. Sticky header height is observed so its variable height under text zoom is reflected in scroll offset. Image dialog supports Escape, focus return, original-size scrolling and the current step title. Keyboard and image/error actions must not lose the current step.
 
 ## Delivery and visual verification
 

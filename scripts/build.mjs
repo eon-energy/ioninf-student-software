@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {getSections} from '../guide-data.js';
-import {PROGRAM_ORDER,resolveVersion} from '../model.js';
+import {PROGRAM_ORDER,downloadFor} from '../model.js';
 const root=fileURLToPath(new URL('../',import.meta.url)),output=path.join(root,'dist');
 const catalog=JSON.parse(await readFile(path.join(root,'catalog.json'),'utf8'));
 await mkdir(output,{recursive:true});
@@ -29,11 +29,15 @@ const styles=await emit('styles.css',css);
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const external='target="_blank" rel="noopener noreferrer"';
 const programRows=PROGRAM_ORDER.map(app=>{
-  const program=catalog.programs[app],source=resolveVersion(program.source,program);
-  const fallback=['windows','macos'].map(os=>'<h4>'+(os==='windows'?'Windows':'macOS')+'</h4><p>'+esc(program.requirements[os])+'</p><ol>'+getSections(app,os,catalog.programs).flatMap(section=>section.steps).map(step=>'<li><strong>'+esc(step.title)+'.</strong> '+esc(step.text)+(step.code?'<pre>'+esc(step.code)+'</pre>':'')+(step.expected?'<pre>'+esc(step.expected)+'</pre>':'')+'</li>').join('')+'</ol>').join('');
-  return '<article class="software-entry" id="'+app+'" data-program="'+app+'"><div class="software-row"><div class="software-copy"><h3>'+program.name+' <span class="version">'+program.version+'</span></h3><p>'+program.role+'</p><a href="'+source+'" '+external+'>Официальный сайт ↗</a></div><button class="primary install-toggle" data-setup="'+app+'" aria-expanded="false" aria-controls="'+app+'-panel" hidden>Установить '+program.name+'</button></div><div class="install-panel" id="'+app+'-panel" hidden></div><details class="fallback-guide"><summary>Установка и загрузка '+program.name+' — текстовая инструкция</summary><p><a href="'+source+'" '+external+'>Скачать '+program.name+' на официальном сайте ↗</a>. Выберите свою систему и процессор. Версия курса: '+program.version+'.</p>'+fallback+'</details></article>';
+  const program=catalog.programs[app];
+  const fallback=['windows','macos'].map(os=>{
+    const chips=os==='macos'&&!program.downloads.macos?['apple','intel']:[null];
+    const downloads=chips.map(chip=>'<a class="primary" href="'+esc(downloadFor(program,os,chip).url)+'" '+external+'>Скачать '+esc(program.name)+' '+esc(program.version)+(chip?' · '+(chip==='apple'?'Apple Silicon':'Intel'):'')+'</a>').join('');
+    return '<h4>'+(os==='windows'?'Windows x64':'macOS')+'</h4><div class="fallback-downloads">'+downloads+'</div><ol>'+getSections(app,os,catalog.programs).flatMap(section=>section.steps).map(step=>'<li><strong>'+esc(step.title)+'.</strong> '+esc(step.text)+(step.code?'<pre>'+esc(step.code)+'</pre>':'')+(step.expected?'<pre>'+esc(step.expected)+'</pre>':'')+'</li>').join('')+'</ol>';
+  }).join('');
+  return '<article class="software-entry" id="'+app+'" data-program="'+app+'"><div class="software-row"><div class="software-copy"><h3>'+program.name+' <span class="version">'+program.version+'</span></h3><p>'+program.role+'</p></div><button class="primary install-toggle" data-setup="'+app+'" aria-expanded="false" aria-controls="'+app+'-panel" hidden>Установить '+program.name+'</button></div><div class="install-panel" id="'+app+'-panel" hidden></div><details class="fallback-guide"><summary>Инструкция по установке '+program.name+'</summary>'+fallback+'</details></article>';
 }).join('\n');
-let html=(await readFile(path.join(root,'index.template.html'),'utf8')).replace('{{programRows}}',programRows).replace('{{styles}}',styles).replace('{{script}}',script).replace('{{checkedAt}}',catalog.checkedAt.split('-').reverse().join('.'));
+let html=(await readFile(path.join(root,'index.template.html'),'utf8')).replace('{{programRows}}',programRows).replace('{{styles}}',styles).replace('{{script}}',script);
 html=html.replace(/\{\{asset:([^}]+)\}\}/g,(_,asset)=>assets[asset]);
 if(html.includes('{{'))throw new Error('Unresolved HTML token');
 await emit('index.html',html,false);
