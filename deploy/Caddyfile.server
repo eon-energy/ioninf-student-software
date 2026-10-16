@@ -1,35 +1,24 @@
-{$APP_DOMAIN} {
-	encode zstd gzip
-
-	header {
-		-Server
-		Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-		Strict-Transport-Security "max-age=31536000"
-		Referrer-Policy "same-origin"
-		X-Content-Type-Options "nosniff"
-		X-Frame-Options "DENY"
-		Permissions-Policy "camera=(), microphone=(), geolocation=()"
-	}
-
-	reverse_proxy app:8080
+# Only these two website blocks; merge into /opt/ion-edge/Caddyfile.
+# Never replace the entire edge configuration with this fragment.
+soft.infa-ion.ru {
+    encode zstd gzip
+    root * /srv/ioninf-soft
+    file_server
+    @versioned path_regexp versioned \.[a-f0-9]{12}\.(css|js|json|svg|webp|jpg|woff2|txt)$
+    @html path / /index.html /release-manifest.json
+    header @html Cache-Control "no-cache"
+    header @versioned Cache-Control "public, max-age=31536000, immutable"
+    header {
+        -Server
+        Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+        Strict-Transport-Security "max-age=31536000"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
 }
 
 soft.ioninf.ru {
-	encode zstd gzip
-	root * /srv/ioninf-soft
-	try_files {path} /index.html
-	file_server
-
-	@static path *.css *.js *.svg
-	header @static Cache-Control "public, max-age=86400"
-
-	header {
-		-Server
-		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-		Strict-Transport-Security "max-age=31536000"
-		Referrer-Policy "strict-origin-when-cross-origin"
-		X-Content-Type-Options "nosniff"
-		X-Frame-Options "DENY"
-		Permissions-Policy "camera=(), microphone=(), geolocation=()"
-	}
+    redir https://soft.infa-ion.ru{uri} 308
 }

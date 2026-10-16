@@ -1,0 +1,14 @@
+{
+  "name": "ion-student-software",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/model.test.mjs && node scripts/check-data.mjs && node scripts/check-downloads.mjs --self-test && node scripts/build.mjs && node tests/browser.cjs",
+    "test:downloads": "node scripts/check-downloads.mjs",
+    "test:production": "node scripts/check-production.mjs https://soft.infa-ion.ru",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": { "playwright": "1.62.1" },
+  "engines": { "node": ">=22" }
+}

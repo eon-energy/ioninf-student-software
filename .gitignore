@@ -1,4 +1,10 @@
 .codex-artifacts/
+node_modules/
+dist/
+test-results/
+.DS_Store
+SOFT_REVIEW_2026-10-16.zip
+review-2026-10-16/
 .idea/
 assets/concepts/
 assets/design-concept-04.png

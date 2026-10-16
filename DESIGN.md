@@ -1,132 +1,62 @@
 ---
-version: alpha
+version: beta
 name: ion-inf Student Software Utility
 colors:
   primary: "#1d1d1f"
   background: "#0b0b0c"
   canvas: "#f5f5f7"
   surface: "#ffffff"
-  surfaceSubtle: "#f0f0f2"
   text: "#1d1d1f"
   textMuted: "#68686d"
   border: "#d8d8dc"
   focus: "#0071e3"
-  brandAccent: "#e25d00"
+  brandText: "#b74500"
   portraitBackdrop: "#ffd8c2"
 typography:
-  body-md:
-    fontFamily: SF Pro Text
-    fontSize: 16px
-    fontWeight: 400
-    lineHeight: 1.5
-  title-lg:
-    fontFamily: SF Pro Display
-    fontSize: 68px
-    fontWeight: 600
-    lineHeight: 1.15
-rounded:
-  sm: 10px
-  md: 18px
+  body: "16px / 1.5 system sans-serif"
+  helper: "13–14px / 1.5"
+  title: "36px mobile, up to 56px desktop"
 spacing:
-  xs: 6px
-  sm: 10px
-  md: 16px
-  lg: 24px
-  xl: 40px
-components:
-  app-canvas:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.text}"
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "#ffffff"
-    rounded: "{rounded.sm}"
-  software-row:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-  install-panel:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-  os-option:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.textMuted}"
-    rounded: "{rounded.sm}"
-  divider:
-    backgroundColor: "{colors.border}"
-  focus-ring:
-    backgroundColor: "{colors.focus}"
-  step-marker:
-    backgroundColor: "{colors.surfaceSubtle}"
-    textColor: "{colors.textMuted}"
-  portrait-stage:
-    backgroundColor: "{colors.portraitBackdrop}"
-    textColor: "{colors.text}"
-  personal-signature:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.brandAccent}"
+  small: 8px
+  medium: 16px
+  large: 24px
+  section: 32px
+rounded:
+  control: 9px
+  panel: 12px
+  canvas: 18px
 ---
 
-## Overview
+## Surface contract
 
-ion-inf is a compact student utility, not a marketing site. The default screen combines a quiet software list with one restrained personal-brand portrait. LibreOffice installation is progressive disclosure: the operating-system choice does not exist visually until the student clicks “Установить”. The visual direction is Apple-inspired restraint based on the latest user reference, without copying Apple interface chrome or adding promotional claims.
+Public student utility plus sequential documentation, not a marketing page and not an internal dashboard. Primary outcome: find the correct supported installer, complete the steps, run a first Python file. Python → PyCharm is the default course order. LibreOffice is for selected lessons.
 
-## Colors
+Preserve the identity: @ion_inf, direct help to @im_ion, supplied portrait, orange handwritten “Собрано Ионом” with a small vector heart. Keep the portrait subordinate to the task. One circular peach background is enough; no floating card, layered decorative arcs or overlapping priority row.
 
-The page uses a near-black outer background with one warm-white application canvas. Graphite is the primary action and text color. Saturated blue is reserved for keyboard focus. Warm orange is the single personal-brand accent, used in the portrait, signature, and instructional screenshot annotations; it never replaces the graphite primary action. All three programs have active install actions.
+## First screen
 
-## Typography
+Compact sticky navigation; constrained content width (1160px usable). Desktop introduction uses two columns; on phones the 100px portrait stays beside the title rather than above the software list. At 375 × 667 the whole Python install button is visible without scrolling. Program descriptions stay visible at every width.
 
-Use the system San Francisco stack with Helvetica and Arial fallbacks. The page title reaches 68px on wide desktop and 37px on mobile. Software names are 17–20px, body text is 14–19px, and helper text is never smaller than 11px. Hierarchy comes from weight, contrast, and spacing.
+All three programs use the same flat row, separating line, version, purpose and explicitly named action. No Py/PC letter tiles. At 700px and narrower the action occupies its own full-width row with min-width:0; no minimum column that overflows at 601/640px. Native scrollbar is retained.
 
-## Layout
+## Instruction pattern
 
-- Desktop: one rounded light application canvas inset 8px from the dark browser background. An 88px translucent top bar holds the text signature @ion_inf and direct Telegram help. Native scroll remains available, but browser scrollbar chrome is visually hidden.
-- The introduction is a restrained two-column composition: task copy and the handwritten line “Собрано Ионом ♥” on the left, a supplied cutout portrait over a layered orange backdrop on the right. There is no biography card, facts, metrics, or secondary CTA.
-- Content expands up to 1640px with 40px outer padding.
-- Default screen: title, one-line description, personal signature, portrait, and a flat software list separated by hairline rules.
-- The LibreOffice row is the one elevated white surface. It overlaps the lower edge of the portrait stage so the portrait sits slightly behind the utility layer; Python and PyCharm remain flat, with active install actions and version labels.
-- LibreOffice expansion sits directly below its row and splits into a 34% OS column and 66% instruction column.
-- Python/PyCharm expansions have a compact OS/download strip, followed by a reading area with a step list. PyCharm has four sections: install, project, settings, and first run. On mobile the step list becomes a native select; screenshots open at original resolution in a scrollable dialog.
-- Mobile: the same top bar becomes compact; the introduction and portrait stack before the software list; software rows remain flat; the expanded installer becomes one vertical flow.
-- The page must not require horizontal scrolling at 375px.
+One shared expansion controller. Explicit OS choice, requirements before the download, explicit Mac chip for non-universal files, consistent name/version/size/type/architecture and official fallback. Download opens separately so the current step remains available.
 
-## Elevation & Depth
+One reading step at a time; PyCharm sections are installation, first project, settings and first run. Desktop uses a step list; mobile a labelled native select. Back/next work across chapter boundaries. Session storage and stable hash URLs preserve progress. Reset is explicit. Python's final step continues to PyCharm with the same OS. PyCharm readiness requires the student's three explicit confirmations; the site never claims it detected software.
 
-Depth comes from four ordered layers: two fine broken circular arcs, one round orange backdrop disc, the transparent portrait, and the LibreOffice row in front. Every backdrop contour is geometrically circular; ellipses are prohibited. One restrained shadow may belong to the portrait stack and one to the primary LibreOffice row; the expanded installer remains nearly flat. No gradients, glow, floating dots, or extra decorative objects. The top bar may use restrained system-style backdrop blur.
+Screenshots are the teacher's unchanged source images with coordinate-based SVG marks. Exact OS/version is adjacent to each image, including direct-linked steps. Old Windows screenshots are labelled as references when reading Mac instructions. LibreOffice remains text-only until real screenshots are supplied. Missing image has local retry; scripts unavailable means complete generated HTML instructions and official links for all three programs.
 
-## Shapes
+## Readability and interaction
 
-Use 10–13px radii for controls, 18px for the two primary surfaces, and 22px only for the outer application canvas. Do not put every row in a rounded card. No nested decorative cards.
+Body 16px; helper 13–14px; no 10px labels. Secondary text #68686d and dark-orange handwriting meet normal-text contrast on the canvas. Graphite primary controls; opaque #0071e3 focus outline. Selected choices use graphite, not blue focus styling. Never remove native focus without a visible replacement on interactive elements.
 
-## Components
+No entrance animation. All deliberate scrolling uses the same reduced-motion-aware helper. Sticky header height is observed so its variable height under text zoom is reflected in scroll offset. Image dialog supports Escape, focus return, original-size scrolling and a caption. Keyboard and image/error actions must not lose the current step.
 
-- Primary button: 44px minimum height, graphite fill, white text, clear hover/pressed/focus states.
-- Software row: flat row with a bottom divider. Python and PyCharm show pinned version numbers and the same “Установить” action.
-- OS option: full-width semantic button with a single 1px contour. Selection uses a graphite contour; keyboard focus replaces it with one blue contour. Never combine border and outline into a double frame.
-- Instruction area: direct official download link followed by four real screenshots for Windows. The first screenshot points to the browser downloads button; macOS uses architecture selection and a compact text-first installation sequence.
-- Python/PyCharm guides: real unchanged screenshots with coordinate-matched orange SVG arrows, rectangles and numbers. Text explains every numbered action, including right versus left click. No generated UI screenshots. One visible step at a time; previous/next and direct step selection are available. Commands are selectable and copyable. A native dialog supports large screenshots and Escape.
-- Platform context: show the exact pinned download version; note that supplied PyCharm screenshots show an older release. macOS installation is text-first; shared IDE screenshots are explicitly Windows references. Python has one universal Mac installer; PyCharm offers Apple Silicon and Intel.
-- Top bar: text-only @ion_inf signature and one black help button that opens Telegram directly. The @ character is visually muted; the portrait belongs to the page introduction rather than navigation.
-- Portrait stage: the supplied transparent portrait sits over one perfectly round pale-orange disc. Behind it, two low-contrast interrupted arcs are drawn from true circles at different radii. The round disc covers the visible silhouette, and the LibreOffice row overlaps the lower edge. It has no card, ellipse, glow, gradient, caption, biography, facts, or statistics.
-- Personal signature: the handwritten text uses the locally bundled `Bad Script` Cyrillic font in the brighter `brandAccent` color and ends with one small vector heart. The heart is part of the signature, not an emoji decoration or separate icon badge.
+## Delivery and visual verification
 
-## Do's and Don'ts
+Small WebP portrait variants with explicit dimensions and srcset; 2.3KB local Cyrillic signature subset; guide images only when their step is rendered. Hashed assets get immutable caching, HTML revalidates. No SPA fallback for missing files.
 
-Do:
+Required browser widths: 320,375,390,600,601,640,680,700,768,840,841,1024,1440. Check actual bounds and clipping, not merely page width. Inspect saved viewport screenshots at 375 × 667, 390 × 844, 1440 × 900 and the 601px boundary. Include 200% text/reflow, image failure, JS-off, history, dialog, keyboard and reduced motion.
 
-- Make “Установить” the only primary action on the default screen.
-- Keep the OS choice hidden until installation is expanded.
-- Use spacing, typography, columns, and dividers for hierarchy.
-- Keep Telegram support accessible without a promotional help card.
-- Treat Apple Silicon as M1 and newer, including M5.
-- Keep the personal-brand treatment to the portrait and the exact line “Собрано Ионом ♥”.
-- Keep orange limited to the portrait layers, signature, vector heart, and actionable screenshot annotations / instructional reminders.
-
-Don't:
-
-- Add a marketing pitch, biography card, personal facts, follower or student counters, metric cards, badges without semantic meaning, emojis, gradients, glows, floating dots, or large rounded containers.
-- Show Windows/macOS controls on the default screen.
-- Add a sidebar or a separate Telegram navigation item.
-- Put each step in its own card.
-- Use orange for primary controls, software status, or unrelated interface decoration.
-- Add a separate decorative laptop artwork or imply Apple affiliation; the laptop visible in the supplied portrait is the only permitted device image.
+The compact utility contract takes precedence over the old oversized portrait, hidden scrollbar and LibreOffice-elevated composition. No generic SaaS card grid, decorative icon tiles, gradients, fake screenshots or marketing copy.

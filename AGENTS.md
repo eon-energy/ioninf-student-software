@@ -95,7 +95,19 @@ Design through subtraction. When two solutions provide the same usability, choos
 
 # Anti-AI UI Rules
 
-This is an internal productivity tool, not a SaaS landing page or dashboard template.
+This is a public student software utility and step-by-step installation reference, not an internal dashboard or a SaaS landing page. Prioritize a beginner's first successful installation, readable explanations, and recoverable progress.
+
+## Student Software Contract
+
+- Python comes first, PyCharm second. LibreOffice is for selected spreadsheet/document lessons only.
+- Preserve @ion_inf, the supplied portrait and handwritten signature, but keep the first Python action fully visible at 375 × 667.
+- Every program uses the same flat row, controller and instruction pattern. No meaningless Py/PC icon tiles or elevated priority for LibreOffice.
+- Use catalog.json for versions, requirements and downloads. Do not duplicate release numbers in HTML or controllers.
+- No fabricated installation screenshots. Keep supplied screenshots unchanged with code-native SVG annotations and exact platform/version captions. Text-only is preferable to a misleading image.
+- Test actual control edges and clipped ancestors at 320, 375, 390, 600, 601, 640, 680, 700, 768, 840, 841, 1024 and 1440px. scrollWidth alone is not proof.
+- Check no-JS and missing module/catalog/image paths, Back/Forward, refresh, explicit Mac architecture, 200% text and reduced motion.
+- Deploy dist only. Never copy this repository or its review documents wholesale into the web root.
+- Do not equate browser tests with a native Windows/macOS installation or testing with real students. Record those limitations.
 
 ## Strictly Forbidden
 
