@@ -7,7 +7,8 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const identity=process.env.SOFT_SSH_KEY;
 if(!identity)throw new Error('Set SOFT_SSH_KEY to an authorized SSH identity file.');
 const run=(bin,args)=>execFileSync(bin,args,{cwd:root,encoding:'utf8',maxBuffer:8*1024*1024});
-const ssh=command=>run('ssh',['-i',identity,'-o','BatchMode=yes','root@213.165.34.164',command]);
+const connection=['-i',identity,'-o','BatchMode=yes','-o','ConnectTimeout=20','-o','ControlMaster=auto','-o','ControlPersist=60','-o','ControlPath='+path.join(root,'.codex-artifacts','soft-deploy.sock')];
+const ssh=command=>run('ssh',[...connection,'root@213.165.34.164',command]);
 const quote=value=>"'"+value.replaceAll("'","'\\''")+"'";
 const revision=run('git',['rev-parse','--short=12','HEAD']).trim();
 const release=new Date().toISOString().replace(/[-:.]/g,'')+'-'+revision;
@@ -39,7 +40,7 @@ if(run('git',['status','--porcelain']).trim())throw new Error('Commit reviewed s
 run('tar',['-czf',path.join(folder,'site.tar.gz'),'-C',path.join(root,'dist'),'--',...files]);
 const stage=ssh('mktemp -d /var/tmp/ion-soft-release.XXXXXX').trim();
 if(!/^\/var\/tmp\/ion-soft-release\.[A-Za-z0-9]+$/.test(stage))throw new Error('Unexpected staging path');
-run('scp',['-i',identity,'-o','BatchMode=yes',path.join(folder,'site.tar.gz'),path.join(folder,'Caddyfile.candidate'),'root@213.165.34.164:'+stage+'/']);
+run('scp',[...connection,path.join(folder,'site.tar.gz'),path.join(folder,'Caddyfile.candidate'),'root@213.165.34.164:'+stage+'/']);
 ssh('set -eu\nmkdir '+quote(stage+'/site')+'\ntar -xzf '+quote(stage+'/site.tar.gz')+' -C '+quote(stage+'/site'));
 const remoteHashes=ssh('cd '+quote(stage+'/site')+'\nsha256sum -- '+files.map(quote).join(' '));
 const hashMap=new Map(remoteHashes.trim().split('\n').map(line=>[line.slice(66),line.slice(0,64)]));
