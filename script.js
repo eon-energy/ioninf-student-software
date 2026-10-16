@@ -24,9 +24,9 @@ const macDownloadUrls = {
 
 const installToggle = document.querySelector('#install-toggle');
 const installPanel = document.querySelector('#install-panel');
-const platformButtons = [...document.querySelectorAll('.platform-option')];
+const platformButtons = [...installPanel.querySelectorAll('.platform-option')];
 const architecture = document.querySelector('#architecture');
-const architectureButtons = [...document.querySelectorAll('.architecture-option')];
+const architectureButtons = [...installPanel.querySelectorAll('.architecture-option')];
 const instructionEmpty = document.querySelector('#instruction-empty');
 const instructionReady = document.querySelector('#instruction-ready');
 const instructionDescription = document.querySelector('#instruction-description');
@@ -107,5 +107,5 @@ architectureButtons.forEach((button) => {
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && !installPanel.hidden) setInstallOpen(false);
+  if (event.key === 'Escape' && !document.querySelector('.image-dialog').open && installPanel.contains(document.activeElement)) setInstallOpen(false);
 });

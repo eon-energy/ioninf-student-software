@@ -7,8 +7,9 @@
   <meta name="theme-color" content="#090a0a">
   <title>@ion_inf — программы для занятий</title>
   <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=14">
-  <script src="script.js?v=4" defer></script>
+  <link rel="stylesheet" href="styles.css?v=15">
+  <script src="guides.js?v=1" defer></script>
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#software">Перейти к программам</a>
@@ -145,24 +146,35 @@
         </div>
       </article>
 
-      <article class="software-entry is-coming">
+      <article class="software-entry software-entry--secondary" id="python" data-setup="python">
         <div class="software-row">
           <div class="software-mark software-mark--letters" aria-hidden="true">Py</div>
-          <div class="software-copy"><h2>Python</h2><p>Язык программирования для следующих занятий</p></div>
-          <span class="software-state">Скоро будет</span>
+          <div class="software-copy"><h2>Python</h2><p>Язык программирования · сначала установите его</p></div>
+          <span class="software-state">3.13.16</span>
+          <button class="install-toggle" type="button" aria-expanded="false" aria-controls="python-panel"><span>Установить</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
         </div>
+        <div class="install-panel setup-panel" id="python-panel" hidden></div>
       </article>
 
-      <article class="software-entry is-coming">
+      <article class="software-entry software-entry--secondary" id="pycharm" data-setup="pycharm">
         <div class="software-row">
           <div class="software-mark software-mark--letters" aria-hidden="true">PC</div>
           <div class="software-copy"><h2>PyCharm</h2><p>Среда для написания и запуска программ</p></div>
-          <span class="software-state">Скоро будет</span>
+          <span class="software-state">2026.2.3</span>
+          <button class="install-toggle" type="button" aria-expanded="false" aria-controls="pycharm-panel"><span>Установить</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
         </div>
+        <div class="install-panel setup-panel" id="pycharm-panel" hidden></div>
       </article>
     </section>
+    <noscript><p>Для пошаговых инструкций включите JavaScript. Скачать программы можно с официальных сайтов: <a href="https://www.python.org/downloads/release/python-31316/">Python 3.13.16</a> и <a href="https://www.jetbrains.com/pycharm/download/">PyCharm</a>.</p></noscript>
 
     </main>
   </div>
+  <dialog class="image-dialog" aria-labelledby="image-dialog-title">
+    <div class="image-dialog-bar"><h2 id="image-dialog-title">Скриншот инструкции</h2><button type="button" class="dialog-close">Закрыть <span aria-hidden="true">×</span></button></div>
+    <p class="image-dialog-hint">Сдвигайте снимок пальцем, чтобы рассмотреть его целиком.</p>
+    <div class="image-dialog-scroll"><div class="image-dialog-content"></div></div>
+    <p class="image-dialog-description"></p>
+  </dialog>
 </body>
 </html>

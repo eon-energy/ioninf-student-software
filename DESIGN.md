@@ -72,7 +72,7 @@ ion-inf is a compact student utility, not a marketing site. The default screen c
 
 ## Colors
 
-The page uses a near-black outer background with one warm-white application canvas. Graphite is the primary action and text color. Saturated blue is reserved for keyboard focus. Warm orange is the single personal-brand accent and appears only in the portrait composition and signature; it never replaces the graphite primary action. Python and PyCharm use neutral disabled styling.
+The page uses a near-black outer background with one warm-white application canvas. Graphite is the primary action and text color. Saturated blue is reserved for keyboard focus. Warm orange is the single personal-brand accent, used in the portrait, signature, and instructional screenshot annotations; it never replaces the graphite primary action. All three programs have active install actions.
 
 ## Typography
 
@@ -84,8 +84,9 @@ Use the system San Francisco stack with Helvetica and Arial fallbacks. The page 
 - The introduction is a restrained two-column composition: task copy and the handwritten line “Собрано Ионом ♥” on the left, a supplied cutout portrait over a layered orange backdrop on the right. There is no biography card, facts, metrics, or secondary CTA.
 - Content expands up to 1640px with 40px outer padding.
 - Default screen: title, one-line description, personal signature, portrait, and a flat software list separated by hairline rules.
-- The LibreOffice row is the one elevated white surface. It overlaps the lower edge of the portrait stage so the portrait sits slightly behind the utility layer; upcoming software remains flat.
+- The LibreOffice row is the one elevated white surface. It overlaps the lower edge of the portrait stage so the portrait sits slightly behind the utility layer; Python and PyCharm remain flat, with active install actions and version labels.
 - LibreOffice expansion sits directly below its row and splits into a 34% OS column and 66% instruction column.
+- Python/PyCharm expansions have a compact OS/download strip, followed by a reading area with a step list. PyCharm has four sections: install, project, settings, and first run. On mobile the step list becomes a native select; screenshots open at original resolution in a scrollable dialog.
 - Mobile: the same top bar becomes compact; the introduction and portrait stack before the software list; software rows remain flat; the expanded installer becomes one vertical flow.
 - The page must not require horizontal scrolling at 375px.
 
@@ -100,9 +101,11 @@ Use 10–13px radii for controls, 18px for the two primary surfaces, and 22px on
 ## Components
 
 - Primary button: 44px minimum height, graphite fill, white text, clear hover/pressed/focus states.
-- Software row: flat row with a bottom divider. Python and PyCharm are inert and say “Скоро”.
+- Software row: flat row with a bottom divider. Python and PyCharm show pinned version numbers and the same “Установить” action.
 - OS option: full-width semantic button with a single 1px contour. Selection uses a graphite contour; keyboard focus replaces it with one blue contour. Never combine border and outline into a double frame.
 - Instruction area: direct official download link followed by four real screenshots for Windows. The first screenshot points to the browser downloads button; macOS uses architecture selection and a compact text-first installation sequence.
+- Python/PyCharm guides: real unchanged screenshots with coordinate-matched orange SVG arrows, rectangles and numbers. Text explains every numbered action, including right versus left click. No generated UI screenshots. One visible step at a time; previous/next and direct step selection are available. Commands are selectable and copyable. A native dialog supports large screenshots and Escape.
+- Platform context: show the exact pinned download version; note that supplied PyCharm screenshots show an older release. macOS installation is text-first; shared IDE screenshots are explicitly Windows references. Python has one universal Mac installer; PyCharm offers Apple Silicon and Intel.
 - Top bar: text-only @ion_inf signature and one black help button that opens Telegram directly. The @ character is visually muted; the portrait belongs to the page introduction rather than navigation.
 - Portrait stage: the supplied transparent portrait sits over one perfectly round pale-orange disc. Behind it, two low-contrast interrupted arcs are drawn from true circles at different radii. The round disc covers the visible silhouette, and the LibreOffice row overlaps the lower edge. It has no card, ellipse, glow, gradient, caption, biography, facts, or statistics.
 - Personal signature: the handwritten text uses the locally bundled `Bad Script` Cyrillic font in the brighter `brandAccent` color and ends with one small vector heart. The heart is part of the signature, not an emoji decoration or separate icon badge.
@@ -117,7 +120,7 @@ Do:
 - Keep Telegram support accessible without a promotional help card.
 - Treat Apple Silicon as M1 and newer, including M5.
 - Keep the personal-brand treatment to the portrait and the exact line “Собрано Ионом ♥”.
-- Keep orange limited to the portrait layers, signature, and vector heart.
+- Keep orange limited to the portrait layers, signature, vector heart, and actionable screenshot annotations / instructional reminders.
 
 Don't:
 
