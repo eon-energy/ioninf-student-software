@@ -128,7 +128,7 @@ function annotatedImage(image, alt) {
     const path = `M${sx},${sy} L${ex},${ey} M${ax},${ay} L${ex},${ey} L${bx},${by}`;
     return `<g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" stroke="white" stroke-width="${stroke + 2}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" stroke="#e25d00" stroke-width="${stroke}"/><path d="${path}" stroke="white" stroke-width="${stroke + 2}"/><path d="${path}" stroke="#e25d00" stroke-width="${stroke}"/></g><circle cx="${fx}" cy="${fy}" r="${radius}" fill="#e25d00" stroke="white" stroke-width="2"/><text x="${fx}" y="${fy}" dy=".35em" fill="white" text-anchor="middle" font-family="Arial,sans-serif" font-size="${radius * 1.2}" font-weight="700">${index + 1}</text>`;
   }).join('');
-  return `<span class="annotated-shot" style="--shot-width:${image.width}px;aspect-ratio:${image.width}/${image.height}"><img src="${image.src}" width="${image.width}" height="${image.height}" alt="${alt}" decoding="async"><svg viewBox="0 0 ${image.width} ${image.height}" aria-hidden="true">${arrows}</svg></span>`;
+  return `<span class="annotated-shot"><img src="${image.src}" width="${image.width}" height="${image.height}" alt="${alt}" decoding="async"><svg viewBox="0 0 ${image.width} ${image.height}" aria-hidden="true">${arrows}</svg></span>`;
 }
 
 const imageDialog = document.querySelector('.image-dialog');
