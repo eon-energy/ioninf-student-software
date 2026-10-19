@@ -3,6 +3,9 @@ import { interpolate } from './model.js';
 const shot = (number, width, height, marks) => ({
   src: `assets/guides/step-${String(number).padStart(2, '0')}.jpg`, width, height, marks
 });
+const libreofficeShot = (step, width, height, marks) => ({
+  src: `assets/guides/libreoffice-${step}.jpg`, width, height, marks
+});
 // Each mark: highlighted rectangle, numbered arrow origin. Labels live in the step text.
 const mark = (box, from) => ({ box, from });
 
@@ -101,11 +104,19 @@ for (const [key, steps] of Object.entries(sequences)) {
   steps.forEach((step, i) => { step.id = ids[key][i]; });
 }
 const libreofficeWindowsSteps = [
-  { id: 'download', title: 'Откройте установщик .msi', text: 'Скачайте файл кнопкой выше. Откройте папку «Загрузки» и дважды нажмите установщик LibreOffice. На компьютере должны быть права администратора.' },
-  { id: 'setup', title: 'Выберите обычную установку', text: 'В мастере нажмите «Далее» (Next). Выберите «Обычная» (Typical), если предлагается тип установки, и снова «Далее». Настройку компонентов менять не нужно.' },
-  { id: 'install', title: 'Начните установку', text: 'При желании оставьте ярлык на рабочем столе. Нажмите «Установить» (Install). Если Windows запросит разрешение, сначала проверьте издателя The Document Foundation, затем подтвердите. Не отключайте защиту Windows.' },
-  { id: 'finish', title: 'Дождитесь завершения', text: 'Не закрывайте мастер, пока устанавливаются файлы. После завершения нажмите «Готово» (Finish). Если требуется перезагрузка, сначала сохраните документы.' },
-  { id: 'verify', title: 'Откройте таблицу', text: 'В меню «Пуск» откройте LibreOffice Calc. Введите число 123 в ячейку A1 и сохраните документ. Если таблица открывается и сохраняется, программа готова к занятиям с таблицами.', expected: 'A1 → 123\nДокумент сохраняется в формате .ods' }
+  { id: 'download', title: 'Откройте установщик .msi', text: 'Нажмите «Скачать» выше и дождитесь окончания загрузки. Нажмите на файл LibreOffice_{{libreoffice.version}}_Win_x86-64.msi в загрузках браузера. Если откроется приветствие мастера, нажмите «Далее».',
+    image: libreofficeShot('download', 468, 245, [mark([69, 44, 320, 68], [229, 186])]) },
+  { id: 'setup', title: 'Выберите «Типичный»', text: '1 — оставьте тип установки «Типичный». 2 — нажмите «Далее».',
+    image: libreofficeShot('setup', 631, 378, [mark([26, 125, 87, 23], [194, 106]), mark([439, 347, 88, 24], [476, 288])]) },
+  { id: 'install', title: 'Начните установку', text: '1 — оставьте галочку «Создать ярлык на рабочем столе». 2 — загрузку LibreOffice при старте системы оставьте выключенной. 3 — нажмите «Установить». Если Windows запросит разрешение, проверьте издателя The Document Foundation и подтвердите.',
+    image: libreofficeShot('install', 634, 379, [mark([26, 155, 234, 24], [379, 163]), mark([26, 195, 291, 24], [379, 244]), mark([440, 347, 88, 25], [482, 290])]) },
+  { id: 'wait', title: 'Дождитесь установки', text: 'Пока заполняется зелёная полоса, ничего нажимать не нужно. Не закрывайте окно и не нажимайте «Отмена».',
+    image: libreofficeShot('wait', 634, 380, [mark([77, 174, 504, 19], [328, 267])]) },
+  { id: 'finish', title: 'Нажмите «Готово»', text: 'Установка завершена. Нажмите «Готово», чтобы закрыть мастер. Если потребуется перезагрузка, сначала сохраните открытые документы.',
+    image: libreofficeShot('finish', 630, 378, [mark([439, 348, 88, 24], [479, 282])]) },
+  { id: 'launch', title: 'Откройте LibreOffice', text: 'Дважды щёлкните левой кнопкой по ярлыку LibreOffice на рабочем столе. Если ярлыка нет, найдите LibreOffice в меню «Пуск».',
+    image: libreofficeShot('launch', 568, 375, [mark([244, 120, 69, 74], [389, 124])]) },
+  { id: 'verify', title: 'Откройте таблицу', text: 'В стартовом окне выберите Calc («Таблица»). Введите число 123 в ячейку A1 и сохраните документ. Если таблица открывается и сохраняется, программа готова к занятиям с таблицами.', expected: 'A1 → 123\nДокумент сохраняется в формате .ods' }
 ];
 const libreofficeMacSteps = [
   { id: 'download', title: 'Выберите свой процессор', text: 'В меню Apple → «Об этом Mac» посмотрите строку «Чип» или «Процессор». Apple M1 и новее — Apple Silicon; Intel — Intel. Подтвердите этот вариант выше и скачайте .dmg.' },
@@ -134,7 +145,7 @@ export function getSections(app, os, programs) {
   return sections.map(section => ({ ...section, steps: section.steps.map(item => {
     const step = { ...item };
     for (const key of ['title','text','tip','code','expected']) if (step[key]) step[key] = interpolate(step[key], programs);
-    if (step.image) step.image = { ...step.image, os: 'Windows', version: app === 'python' ? '3.13.16' : '2025.2.1.1', provenance: 'Скриншот преподавателя', capturedAt: null, nativeVerifiedAt: null };
+    if (step.image) step.image = { ...step.image, os: 'Windows', version: { python: '3.13.16', pycharm: '2025.2.1.1', libreoffice: '26.8.0.3' }[app], provenance: 'Скриншот преподавателя', capturedAt: null, nativeVerifiedAt: null };
     if (app === 'pycharm' && os === 'macos' && section.id !== 'install') {
       step.platformNote = 'Снимок: Windows, PyCharm 2025.2.1.1. На Mac основные пункты те же, но расположение меню может отличаться.';
     }

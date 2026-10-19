@@ -58,6 +58,7 @@ async function geometry(page){
     await page.setViewportSize({width:601,height:900});
     await page.evaluate(()=>{const el=document.querySelector('.software-row');el.style.gridTemplateColumns='400px 400px';el.style.overflow='hidden';});
     assert.ok((await geometry(page)).length>0,'Geometry guard must catch deliberate clipped button');
+    await page.evaluate(()=>{const el=document.querySelector('.software-row');el.style.removeProperty('grid-template-columns');el.style.removeProperty('overflow');});
     await ready(base+'/#programs');record('Negative mutation: clipped 601px button is detected');
     const catalog=JSON.parse(await fs.readFile('catalog.json','utf8'));
     const {getSections}=await import('../guide-data.js');
@@ -85,7 +86,34 @@ async function geometry(page){
           }
         }
       }
-    }record('8 download variants, explicit chips; all 55 guide states and images; removed microcopy stays absent');
+    }record('8 download variants, explicit chips; all 57 guide states and images; removed microcopy stays absent');
+    const libreofficeSteps=getSections('libreoffice','windows',catalog.programs)[0].steps;
+    for(const width of [390,1440]){
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await ready(base+'/#guide/libreoffice/windows/choose/install/download');
+      for(const step of libreofficeSteps){
+        assert.equal(await page.locator('#step-heading').textContent(),step.title);
+        await assertMinimalUI(page);
+        assert.deepEqual(await geometry(page),[],'LibreOffice '+step.id+' at '+width);
+        if(step.image){
+          await page.locator('.image-zoom img').evaluate(img=>img.decode());
+          assert.equal(await page.locator('.image-zoom svg rect').count(),step.image.marks.length);
+          assert.deepEqual(await page.locator('.image-zoom svg text').allTextContents(),step.image.marks.map((_,i)=>String(i+1)));
+          await page.locator('#step-heading').evaluate(el=>el.scrollIntoView({behavior:'instant',block:'start'}));
+          await page.waitForTimeout(150);await page.screenshot({path:'test-results/libreoffice-'+step.id+'-'+width+'.png'});
+          await page.locator('[data-image]').click();
+          assert.equal(await page.locator('#image-dialog-title').textContent(),step.title);
+          assert.equal(await page.locator('dialog svg rect').count(),step.image.marks.length);
+          await page.keyboard.press('Escape');
+          assert.ok(await page.locator('[data-image]').evaluate(el=>el===document.activeElement));
+        }
+        if(step.id!=='verify')await page.locator('[data-next]').click();
+      }
+      await page.locator('[data-os=macos]').click();
+      assert.equal(await page.locator('.image-zoom').count(),0,'Windows screenshots never shown in LibreOffice Mac steps');
+    }
+    record('Six LibreOffice screenshots: desktop/mobile, annotations, next-step flow, enlarged view and Mac isolation');
+    await page.setViewportSize({width:1024,height:900});
     await ready(base+'/#guide/python/macos/choose/install/verify');
     await page.locator('[data-open-app=pycharm]').click();
     assert.ok(page.url().includes('/pycharm/macos/'));
