@@ -36,7 +36,7 @@ function downloadMarkup(program) {
   if (!state.os) return '';
   const file = downloadFor(program, state.os, state.architecture);
   if (!file) return '';
-  return '<div class="download-info"><a class="primary download-link" href="'+esc(file.url)+'" '+external+'>Скачать '+esc(program.name)+' '+esc(program.version)+'</a></div>';
+  return '<div class="download-info"><a class="primary download-link" href="'+esc(file.url)+'" '+external+'>Скачать '+esc(program.name)+' '+esc(file.version)+'</a></div>';
 }
 function completionMarkup() {
   if (state.app === 'python') return '<div class="completion"><h4>Python установлен?</h4><button class="primary" data-open-app="pycharm">Перейти к установке PyCharm</button></div>';

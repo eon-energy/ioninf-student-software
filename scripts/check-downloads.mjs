@@ -5,6 +5,7 @@ import { downloadFor } from '../model.js';
 const catalog = JSON.parse(await readFile(new URL('../catalog.json', import.meta.url)));
 const report = { checkedAt: new Date().toISOString(), checks: [], errors: [] };
 const verifyFiles = process.argv.includes('--verify-libreoffice');
+const verifyMirrors = process.argv.includes('--verify-mirrors');
 const only = process.argv.find(a=>a.startsWith('--only='))?.split('=')[1];
 const allowedMime = /^(application\/(octet-stream|x-msi|x-msdownload|vnd\.microsoft\.portable-executable|x-apple-diskimage|x-xar|x-msdos-program)|binary\/octet-stream)(;|$)/;
 
@@ -57,6 +58,24 @@ for (const [id,program] of Object.entries(catalog.programs)) {
         assert.equal(tail.status,206);assert.equal(Buffer.from(await tail.arrayBuffer()).subarray(0,4).toString(),'koly');
       }
       item.fileSignature='passed';
+      if(file.mirrored) {
+        assert.equal(chain.length,1,'Owned mirror must not redirect to the publisher');
+        assert.match(response.headers.get('content-disposition')||'',/^attachment;/i);
+        assert.equal(response.headers.get('x-amz-meta-sha256'),file.sha256);
+        const {response:checksum}=await checkedFetch(file.integritySource,{method:'GET',allowedHosts:catalog.allowedIntegrityHosts});
+        assert.equal(checksum.status,200);
+        const [publisherHash,publisherFile]=(await checksum.text()).trim().split(/\s+/);
+        assert.equal(publisherHash,file.sha256);
+        assert.equal(publisherFile.replace(/^\*/,''),new URL(file.url).pathname.split('/').at(-1));
+        item.publisherChecksum=file.sha256;
+        if(verifyMirrors) {
+          console.log(`Hashing owned mirror ${id}/${platform} (${file.bytes} bytes; not executing)...`);
+          const {response:binary}=await checkedFetch(file.url,{method:'GET',timeout:600000});
+          assert.equal(binary.status,200);const hash=createHash('sha256');let size=0;
+          for await(const chunk of binary.body){hash.update(chunk);size+=chunk.length;}
+          assert.equal(size,file.bytes);assert.equal(hash.digest('hex'),file.sha256);item.fullSha256Verified=true;
+        }
+      }
       if(id==='libreoffice') {
         // MirrorBrain can omit country-only mirrors for a CI runner abroad.
         // Select the mirror's documented country for metadata, not for the binary request.

@@ -26,14 +26,14 @@
       "role": "2. Редактор кода — после Python",
       "source": "https://www.jetbrains.com/pycharm/download/",
       "requirementsSource": "https://www.jetbrains.com/help/pycharm/installation-guide.html",
-      "pinnedReason": "Последний стабильный релиз на дату проверки. Обновлять только вместе с проверкой инструкции.",
+      "pinnedReason": "Windows: установщик 2025.2.1.1 предоставлен преподавателем и совпадает с официальной SHA-256; хранится в его Timeweb S3. macOS: сохранён ранее проверенный релиз 2026.2.3 с официального сайта.",
       "nativeInstallVerifiedAt": null,
       "requirements": {
         "windows": "Windows 10 / 11, Intel или AMD x64, 4 ядра, 8 ГБ памяти и 10 ГБ свободного места.",
         "macos": "Поддерживаемые JetBrains версии macOS: 15 и 26. Нужно 4 ядра, 8 ГБ памяти и 10 ГБ свободного места. Проверьте процессор перед загрузкой."
       },
       "downloads": {
-        "windows": { "url": "https://download.jetbrains.com/python/pycharm-{version}.exe", "bytes": 962363888, "architecture": "Intel / AMD · x64", "type": "exe", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}.exe.sha256" },
+        "windows": { "version": "2025.2.1.1", "url": "https://s3.twcstorage.ru/ion-python-course-videos/software/pycharm/{version}/pycharm-{version}.exe", "bytes": 1032170440, "architecture": "Intel / AMD · x64", "type": "exe", "sha256": "7fddb614ad1a72b82c2ec25a535003ad6e44f63c42029b33ed359571dcf46c02", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}.exe.sha256", "mirrored": true, "verifiedAt": "2026-10-21", "edition": "unified", "provenance": "Установщик предоставлен владельцем; совпадает с официальным файлом JetBrains, не Community." },
         "apple": { "url": "https://download.jetbrains.com/python/pycharm-{version}-aarch64.dmg", "bytes": 1221864868, "architecture": "Apple Silicon · M1 и новее", "type": "dmg", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}-aarch64.dmg.sha256" },
         "intel": { "url": "https://download.jetbrains.com/python/pycharm-{version}.dmg", "bytes": 1270690329, "architecture": "Intel · x64", "type": "dmg", "integritySource": "https://download.jetbrains.com/python/pycharm-{version}.dmg.sha256" }
       }
@@ -58,6 +58,6 @@
       }
     }
   },
-  "allowedDownloadHosts": ["www.python.org", "download.jetbrains.com", "download-cdn.jetbrains.com", "mirror.truenetwork.ru"],
+  "allowedDownloadHosts": ["www.python.org", "download.jetbrains.com", "download-cdn.jetbrains.com", "mirror.truenetwork.ru", "s3.twcstorage.ru"],
   "allowedIntegrityHosts": ["www.python.org", "download.jetbrains.com", "download-cdn.jetbrains.com", "download.documentfoundation.org"]
 }

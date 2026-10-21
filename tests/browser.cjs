@@ -70,8 +70,8 @@ async function geometry(page){
         if(os==='macos'&&app!=='python'){
           assert.equal(await page.locator('.download-link').count(),0);
           assert.equal(await page.locator('[data-chip][aria-pressed=true]').count(),0);
-          for(const chip of ['apple','intel']){await page.locator('[data-chip="'+chip+'"]').click();assert.equal(await page.locator('.download-link').getAttribute('href'),downloadFor(catalog.programs[app],os,chip).url);}
-        }else assert.equal(await page.locator('.download-link').getAttribute('href'),downloadFor(catalog.programs[app],os,null).url);
+          for(const chip of ['apple','intel']){await page.locator('[data-chip="'+chip+'"]').click();const file=downloadFor(catalog.programs[app],os,chip);assert.equal(await page.locator('.download-link').getAttribute('href'),file.url);assert.equal(await page.locator('.download-link').textContent(),'Скачать '+catalog.programs[app].name+' '+file.version);}
+        }else {const file=downloadFor(catalog.programs[app],os,null);assert.equal(await page.locator('.download-link').getAttribute('href'),file.url);assert.equal(await page.locator('.download-link').textContent(),'Скачать '+catalog.programs[app].name+' '+file.version);}
         assert.equal(await page.locator('.download-link').getAttribute('target'),'_blank');
         await assertMinimalUI(page);
         for(const section of getSections(app,os,catalog.programs)){
@@ -87,6 +87,15 @@ async function geometry(page){
         }
       }
     }record('8 download variants, explicit chips; all 57 guide states and images; removed microcopy stays absent');
+    for(const width of [390,1440]){
+      await page.setViewportSize({width,height:width===390?844:900});
+      await ready(base+'/#guide/pycharm/windows/choose/install/download');
+      assert.equal(await page.locator('#pycharm .software-row .version').count(),0,'No misleading shared version for different platform releases');
+      assert.deepEqual(await geometry(page),[],'PyCharm mirror at '+width);
+      await page.locator('#pycharm-heading').evaluate(el=>el.scrollIntoView({behavior:'instant',block:'start'}));
+      await page.waitForTimeout(150);await page.screenshot({path:'test-results/pycharm-mirror-'+width+'.png'});
+    }
+    record('Owned PyCharm Windows mirror: correct version on desktop and mobile');
     const libreofficeSteps=getSections('libreoffice','windows',catalog.programs)[0].steps;
     for(const width of [390,1440]){
       await page.setViewportSize({width,height:width===390?844:1000});
@@ -176,8 +185,10 @@ async function geometry(page){
         await p.locator('#'+app+' summary').click();
         const links=p.locator('#'+app+' .fallback-guide a');
         assert.equal(await links.count(),app==='python'?2:3);
-        const expected=['windows','macos'].flatMap(os=>(os==='macos'&&app!=='python'?['apple','intel']:[null]).map(chip=>downloadFor(catalog.programs[app],os,chip).url));
+        const files=['windows','macos'].flatMap(os=>(os==='macos'&&app!=='python'?['apple','intel']:[null]).map(chip=>downloadFor(catalog.programs[app],os,chip)));
+        const expected=files.map(file=>file.url);
         assert.deepEqual(await links.evaluateAll(els=>els.map(el=>el.href)),expected);
+        for(let i=0;i<files.length;i++)assert.ok((await links.nth(i).textContent()).startsWith('Скачать '+catalog.programs[app].name+' '+files[i].version));
         for(const link of await links.all())assert.ok(await link.isVisible());
       }
       await assertMinimalUI(p);

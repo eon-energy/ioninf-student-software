@@ -32,10 +32,12 @@ const programRows=PROGRAM_ORDER.map(app=>{
   const program=catalog.programs[app];
   const fallback=['windows','macos'].map(os=>{
     const chips=os==='macos'&&!program.downloads.macos?['apple','intel']:[null];
-    const downloads=chips.map(chip=>'<a class="primary" href="'+esc(downloadFor(program,os,chip).url)+'" '+external+'>Скачать '+esc(program.name)+' '+esc(program.version)+(chip?' · '+(chip==='apple'?'Apple Silicon':'Intel'):'')+'</a>').join('');
+    const downloads=chips.map(chip=>{const file=downloadFor(program,os,chip);return '<a class="primary" href="'+esc(file.url)+'" '+external+'>Скачать '+esc(program.name)+' '+esc(file.version)+(chip?' · '+(chip==='apple'?'Apple Silicon':'Intel'):'')+'</a>';}).join('');
     return '<h4>'+(os==='windows'?'Windows x64':'macOS')+'</h4><div class="fallback-downloads">'+downloads+'</div><ol>'+getSections(app,os,catalog.programs).flatMap(section=>section.steps).map(step=>'<li><strong>'+esc(step.title)+'.</strong> '+esc(step.text)+(step.code?'<pre>'+esc(step.code)+'</pre>':'')+(step.expected?'<pre>'+esc(step.expected)+'</pre>':'')+'</li>').join('')+'</ol>';
   }).join('');
-  return '<article class="software-entry" id="'+app+'" data-program="'+app+'"><div class="software-row"><div class="software-copy"><h3>'+program.name+' <span class="version">'+program.version+'</span></h3><p>'+program.role+'</p></div><button class="primary install-toggle" data-setup="'+app+'" aria-expanded="false" aria-controls="'+app+'-panel" hidden>Установить '+program.name+'</button></div><div class="install-panel" id="'+app+'-panel" hidden></div><details class="fallback-guide"><summary>Инструкция по установке '+program.name+'</summary>'+fallback+'</details></article>';
+  const versions=new Set(Object.values(program.downloads).map(file=>file.version||program.version));
+  const version=versions.size===1?' <span class="version">'+esc([...versions][0])+'</span>':'';
+  return '<article class="software-entry" id="'+app+'" data-program="'+app+'"><div class="software-row"><div class="software-copy"><h3>'+program.name+version+'</h3><p>'+program.role+'</p></div><button class="primary install-toggle" data-setup="'+app+'" aria-expanded="false" aria-controls="'+app+'-panel" hidden>Установить '+program.name+'</button></div><div class="install-panel" id="'+app+'-panel" hidden></div><details class="fallback-guide"><summary>Инструкция по установке '+program.name+'</summary>'+fallback+'</details></article>';
 }).join('\n');
 let html=(await readFile(path.join(root,'index.template.html'),'utf8')).replace('{{programRows}}',programRows).replace('{{styles}}',styles).replace('{{script}}',script);
 html=html.replace(/\{\{asset:([^}]+)\}\}/g,(_,asset)=>assets[asset]);

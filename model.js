@@ -8,7 +8,9 @@ export function resolveVersion(template, program) {
 export function downloadFor(program, os, architecture) {
   const key = os === 'windows' ? 'windows' : program.downloads.macos ? 'macos' : architecture;
   const data = program.downloads[key];
-  return data ? { ...data, url: resolveVersion(data.url, program), integritySource: resolveVersion(data.integritySource, program) } : null;
+  if (!data) return null;
+  const release = { version: data.version || program.version };
+  return { ...data, version: release.version, url: resolveVersion(data.url, release), integritySource: resolveVersion(data.integritySource, release) };
 }
 
 export function formatBytes(bytes) {

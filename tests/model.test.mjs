@@ -25,6 +25,22 @@ test('changing catalog version changes filenames and verification command togeth
   const verify=getSections('python','windows',changed)[0].steps.at(-1);
   assert.equal(verify.code,'py -3.99 --version');assert.equal(verify.expected,'Python 3.99.42');
 });
+test('Windows PyCharm uses the supplied mirror release without changing Mac downloads', () => {
+  const windows=downloadFor(programs.pycharm,'windows',null);
+  assert.equal(windows.version,'2025.2.1.1');
+  assert.equal(windows.url,'https://s3.twcstorage.ru/ion-python-course-videos/software/pycharm/2025.2.1.1/pycharm-2025.2.1.1.exe');
+  assert.equal(windows.integritySource,'https://download.jetbrains.com/python/pycharm-2025.2.1.1.exe.sha256');
+  assert.equal(windows.bytes,1032170440);
+  assert.equal(windows.edition,'unified');
+  for(const chip of ['apple','intel']) {
+    const mac=downloadFor(programs.pycharm,'macos',chip);
+    assert.equal(mac.version,'2026.2.3');
+    assert.equal(new URL(mac.url).hostname,'download.jetbrains.com');
+  }
+  const changed=structuredClone(programs.pycharm);changed.version='2099.1.2';
+  assert.equal(downloadFor(changed,'windows',null).url,windows.url);
+  assert.equal(downloadFor(changed,'macos','intel').version,'2099.1.2');
+});
 test('LibreOffice uses six original Windows screenshots in order, not on Mac', () => {
   const windows=sections('libreoffice','windows')[0].steps;
   assert.deepEqual(windows.map(step=>step.id),['download','setup','install','wait','finish','launch','verify']);

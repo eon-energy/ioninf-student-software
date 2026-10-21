@@ -20,7 +20,7 @@ function jpegSize(bytes) {
 }
 for (const id of PROGRAM_ORDER) {
   const program = catalog.programs[id];
-  assert.match(program.version, /^\d+\.\d+\.\d+$/);
+  assert.match(program.version, /^\d+\.\d+\.\d+(?:\.\d+)?$/);
   for (const field of ['owner','checkedAt']) assert.ok(catalog[field]);
   assert.ok(program.pinnedReason && program.requirements.windows && program.requirements.macos);
   assert.equal(new URL(resolveVersion(program.source, program)).protocol, 'https:');
@@ -30,7 +30,14 @@ for (const id of PROGRAM_ORDER) {
     const url = new URL(file.url);
     assert.equal(url.protocol, 'https:');
     assert.ok(catalog.allowedDownloadHosts.includes(url.hostname), `Unapproved host ${url.hostname}`);
-    assert.ok(url.pathname.includes(program.version));
+    assert.match(file.version, /^\d+\.\d+\.\d+(?:\.\d+)?$/);
+    assert.ok(url.pathname.includes(file.version));
+    if (file.mirrored) {
+      assert.match(file.sha256, /^[a-f0-9]{64}$/);
+      assert.ok(file.verifiedAt && file.provenance);
+      assert.equal(url.origin, 'https://s3.twcstorage.ru');
+      assert.ok(url.pathname.startsWith('/ion-python-course-videos/software/'));
+    }
     assert.ok(url.pathname.endsWith('.'+file.type));
     assert.ok(Number.isInteger(file.bytes) && file.bytes > 1e6);
     links++;
